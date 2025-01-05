@@ -1,27 +1,24 @@
+require('dotenv').config();
+
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const { Configuration, PlaidApi, PlaidEnvironments } = require("plaid");
 const { MongoClient } = require("mongodb");
-const dev_secret = "13a8468c3f64e1054c21a6a03804b9";
-const sandbox_secret = "b574f5c5c854333952feae0b3b2914";
-const client_id = "66084b76da645a001b11632b";
 
 const configuration = new Configuration({
-  basePath: PlaidEnvironments.development,
+  basePath: PlaidEnvironments.sandbox,
   baseOptions: {
     headers: {
-      "PLAID-CLIENT-ID": client_id,
-      "PLAID-SECRET": dev_secret,
+      "PLAID-CLIENT-ID": process.env.PLAID_CLIENT_ID,
+      "PLAID-SECRET": process.env.PLAID_SANDBOX_SECRET,
     },
   },
 });
 
 const plaidClient = new PlaidApi(configuration);
 
-const mongoClient = new MongoClient(
-  "mongodb+srv://ibrahimmuhammad4:Ic8JAPSH41ZGsQqa@cluster0.lwhaasj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-);
+const mongoClient = new MongoClient(process.env.MONGO_CONNECTION);
 
 const app = express();
 app.use(cors());
