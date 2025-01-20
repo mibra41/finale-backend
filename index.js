@@ -24,10 +24,6 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-app.post("/hello", (request, response) => {
-  response.json({ message: "hello " + request.body.name });
-});
-
 app.post("/create_link_token", async function (request, response) {
   const plaidRequest = {
     user: {
@@ -78,6 +74,7 @@ app.post("/get_users", async function (request, response) {
       .find()
       .toArray();
     response.json(mongoResponse);
+    response.status(200);
   } catch (error) {
     response.json(error.message);
   }
@@ -86,7 +83,7 @@ app.post("/get_users", async function (request, response) {
 app.post("/create_user", async function (request, response) {
   try {
     const account = {
-      name: "Baby Zara",
+      name: "Baby Momo",
       access_token: request.body.access_token,
       account_number: request.body.account_number,
       routing_number: request.body.routing_number,
